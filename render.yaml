@@ -3,6 +3,7 @@ services:
     name: student-task-reminder
     env: python
     plan: free
+    region: eu-central
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
