@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-top: 15px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border: 2px solid  #2825d4;
+            background-color: #f9f9f9;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color:  #2825d4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color:  #2825d4;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color:  #2825d4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <h2>Student Registration</h2>
+
+    {% if message %}
+    <script>alert('{{ message }}');</script>
+    {% endif %}
+
+    <form method="POST">
+
+        <label>Full Name</label>
+        <input type="text" name="full_name" required>
+
+        <label>Registration Number</label>
+        <input type="text" name="registration_no" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Course</label>
+        <input type="text" name="course" required>
+
+        <label>Year of Study</label>
+        <input type="text" name="year_of_study" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <input type="submit" name="register" value="Register">
+
+    </form>
+
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</div>
+
+</body>
+</html>

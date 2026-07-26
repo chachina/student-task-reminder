@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h1>Student Academic Planner System</h1>
+
+<h2>Welcome, {{ full_name }} 👋</h2>
+
+<p>You have successfully logged in.</p>
+
+<hr>
+
+<h3>Dashboard</h3>
+
+<ul>
+    <li>📅 Calendar</li>
+    <li>📝 Manage Tasks</li>
+    <li>🔔 Reminders</li>
+    <li>📊 Reports</li>
+</ul>
+
+<a href="{{ url_for('logout') }}">Logout</a>
+
+</body>
+</html>

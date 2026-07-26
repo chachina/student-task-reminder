@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Notifications</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+}
+
+.sidebar{
+    width:230px;
+    height:100vh;
+    background:#1e3a8a;
+    color:white;
+    position:fixed;
+    padding-top:20px;
+    overflow-y:auto;
+}
+
+.sidebar h2{
+    text-align:center;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:15px 20px;
+}
+
+.sidebar a:hover{
+    background:#2563eb;
+}
+
+.content{
+    margin-left:250px;
+    padding:30px;
+}
+
+.content h1{
+    color:#333;
+    margin-bottom:20px;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.notification-item{
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:8px;
+    cursor:pointer;
+    transition: all 0.3s ease;
+    border-left: 5px solid;
+    background: #f9f9f9;
+}
+
+.notification-item:hover{
+    transform: translateX(10px);
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+}
+
+.notification-overdue{
+    border-left-color: #dc2626;
+    background: #fef2f2;
+}
+
+.notification-today{
+    border-left-color: #ea580c;
+    background: #fefce8;
+}
+
+.notification-tomorrow{
+    border-left-color: #16a34a;
+    background: #f0fdf4;
+}
+
+.notification-title{
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 0 5px 0;
+}
+
+.notification-date{
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+.red{color:#dc2626;}
+.orange{color:#ea580c;}
+.green{color:#16a34a;}
+
+.sound-control{
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #e0f2fe;
+    border-radius: 8px;
+    border-left: 4px solid #0284c7;
+}
+
+.sound-control label{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #0284c7;
+}
+
+.sound-control input[type="checkbox"]{
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.test-sound-btn{
+    background-color: #0284c7;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.test-sound-btn:hover{
+    background-color: #0369a1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.modal-content textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+    outline: none;
+    border: 2px solid #2563eb;
+    background-color: #f9f9f9;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-save {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-save:hover {
+    background-color: #45a049;
+}
+
+.btn-cancel {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background-color: #e0e0e0;
+}
+
+.success-message {
+    display: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>🎓 Planner</h2>
+
+<a href="{{ url_for('student_dashboard') }}">📊 Dashboard</a>
+<a href="{{ url_for('student_calendar') }}">📅 Calendar</a>
+<a href="{{ url_for('student_reports') }}">📈 Reports</a>
+<a href="{{ url_for('student_profile') }}">👤 Profile</a>
+<a href="javascript:openAddTask('')">➕ Add Task</a>
+<a href="{{ url_for('student_notifications') }}">🔔 Notifications</a>
+<a href="{{ url_for('logout') }}">🚪 Logout</a>
+
+</div>
+
+<div class="content">
+
+<h1>🔔 Notifications</h1>
+
+<div class="sound-control">
+    <label>
+        <input type="checkbox" id="soundToggle" checked> 🔊 Sound Notifications
+    </label>
+    <button class="test-sound-btn" onclick="playNotificationSound()">🔔 Test Sound</button>
+</div>
+
+<div class="success-message" id="successMessage">✅ Task updated successfully!</div>
+
+<div class="box">
+
+{% if not notifications %}
+    <p style="color:#999;">No notifications.</p>
+{% else %}
+    {% for n in notifications %}
+    <div class="notification-item {{ n.css_class }}" onclick="editTask({{ n.task_id }})" style="cursor:pointer;">
+        <p class="notification-title">{{ n.icon }} {{ n.task_title }} - {{ n.message }}</p>
+        <p class="notification-date">Due: {{ n.due_date }}</p>
+    </div>
+    {% endfor %}
+{% endif %}
+
+</div>
+
+</div>
+
+<!-- Edit Task Modal -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <h2>✏️ Edit Task</h2>
+
+        <form id="taskForm" method="POST">
+            <input type="hidden" id="task_id" name="task_id">
+
+            <input type="text" id="task_title" name="task_title" placeholder="Task Title" required>
+
+            <textarea id="description" name="description" placeholder="Task Description (optional)"></textarea>
+
+            <input type="date" id="due_date" name="due_date" required>
+
+            <select id="status" name="status">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="In Progress">In Progress</option>
+            </select>
+
+            <div class="modal-buttons">
+                <button type="submit" class="btn-save">💾 Save Task</button>
+                <button type="button" class="btn-cancel" onclick="closeTask()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+function playNotificationSound(){
+    if(!document.getElementById("soundToggle").checked){
+        return;
+    }
+    try{
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 0.5);
+    }catch(e){
+        console.error("Unable to play sound:", e);
+    }
+}
+
+function editTask(taskId){
+    fetch("{{ url_for('student_notifications') }}?fetch_task=" + taskId)
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            let task = data.task;
+            document.getElementById("taskModal").style.display = "block";
+            document.getElementById("task_id").value = task.task_id;
+            document.getElementById("task_title").value = task.task_title;
+            document.getElementById("description").value = task.task_description;
+            document.getElementById("due_date").value = task.due_date;
+            document.getElementById("status").value = task.status;
+        }
+    });
+}
+
+function closeTask(){
+    document.getElementById("taskModal").style.display = "none";
+    document.getElementById("taskForm").reset();
+}
+
+document.getElementById("taskForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let formData = new FormData(this);
+    formData.append("update_task", "1");
+
+    fetch(window.location.href, {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            document.getElementById("successMessage").style.display = "block";
+            closeTask();
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            alert("Error: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred");
+    });
+});
+
+{% if has_overdue or has_due_today %}
+document.addEventListener("DOMContentLoaded", function(){
+    playNotificationSound();
+});
+{% endif %}
+
+</script>
+
+</body>
+</html>

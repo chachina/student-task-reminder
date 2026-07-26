@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Academic Planner System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#4facfe,#00c6fb);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    background:#fff;
+    width:450px;
+    padding:35px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+h1{
+    color:#0077cc;
+    margin-bottom:15px;
+}
+
+p{
+    color:#555;
+    margin-bottom:20px;
+}
+
+ul{
+    text-align:left;
+    margin:20px 0;
+}
+
+li{
+    margin:10px 0;
+}
+
+.btn{
+    display:inline-block;
+    text-decoration:none;
+    background:#0077cc;
+    color:#fff;
+    padding:12px 25px;
+    border-radius:8px;
+    margin:10px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#005fa3;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Student Academic Planner System</h1>
+
+<p>
+Organize your assignments, exams, study sessions and reminders in one place.
+</p>
+
+<ul>
+<li>📅 Task Management</li>
+<li>🗓 Calendar</li>
+<li>⏰ Assignment Reminders</li>
+<li>📊 Reports</li>
+<li>👨‍🎓 Student Dashboard</li>
+</ul>
+
+<a href="{{ url_for('login') }}" class="btn">Login</a>
+<a href="{{ url_for('register') }}" class="btn">Register</a>
+
+</div>
+
+</body>
+</html>
