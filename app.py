@@ -23,7 +23,7 @@ from datetime import date, timedelta
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
-from database import get_db, init_db
+from database import get_db
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "student-planner-secret-key-change-me")
@@ -579,13 +579,7 @@ def student_reports():
 
 # ---------------------------------------------------------------------------
 # Init DB on startup so Gunicorn/Render picks it up
-# ---------------------------------------------------------------------------
-def ensure_database_ready():
-    init_db()
-    print("Database ready on Neon Postgres.")
-
-
-ensure_database_ready()
+# No database init needed for this app.
 
 
 # ---------------------------------------------------------------------------
